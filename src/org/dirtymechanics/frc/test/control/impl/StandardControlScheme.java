@@ -31,7 +31,7 @@ public class StandardControlScheme implements ControlScheme {
         return right.getButtonState(TRANSMISSION_SWITCH);
     }
 
-    public boolean isShooting() {
+    public boolean getShooterWheelState() {
         return right.getButtonState(SHOOTING_SWITCH);
     }
 }

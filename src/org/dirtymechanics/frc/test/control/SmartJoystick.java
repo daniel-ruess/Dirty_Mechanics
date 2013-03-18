@@ -62,7 +62,7 @@ public class SmartJoystick extends Joystick {
                     state = !state;
                 }
             }
-            lastState = current;
+            lastState = getRawButton(id);
             return state;
         }
     }

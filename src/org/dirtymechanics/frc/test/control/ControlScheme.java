@@ -20,5 +20,9 @@ public interface ControlScheme {
      */
     public boolean getTransmissionState();
 
-    public boolean isShooting();
+    /**
+     * Gets the current state of the shooter motor.
+     * @return Whether or not to run the shooter motor.
+     */
+    public boolean getShooterWheelState();
 }

@@ -3,7 +3,6 @@ package org.dirtymechanics.frc.test;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.communication.ModulePresence;
 import org.dirtymechanics.frc.test.control.ControlScheme;
 import org.dirtymechanics.frc.test.control.SmartJoystick;
 import org.dirtymechanics.frc.test.control.impl.StandardControlScheme;

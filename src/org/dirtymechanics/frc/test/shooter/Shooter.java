@@ -31,8 +31,8 @@ public class Shooter {
     }
     
     public void update() {
-        System.out.println(controls.isShooting());
-        if (controls.isShooting()) {
+        System.out.println(controls.getShooterWheelState());
+        if (controls.getShooterWheelState()) {
             setSpeed(1.0D);
         } else {
             setSpeed(0.0D);
