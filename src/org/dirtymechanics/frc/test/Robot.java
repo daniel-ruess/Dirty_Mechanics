@@ -3,6 +3,7 @@ package org.dirtymechanics.frc.test;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.camera.AxisCamera;
 import org.dirtymechanics.frc.test.control.ControlScheme;
 import org.dirtymechanics.frc.test.control.SmartJoystick;
 import org.dirtymechanics.frc.test.control.impl.StandardControlScheme;
@@ -19,6 +20,7 @@ public class Robot extends IterativeRobot {
     private final Jaguar rightJag = new Jaguar(DRIVE_JAGUAR_RIGHT);
     private final Jaguar shooterJag = new Jaguar(SHOOTER_JAGUAR);
     
+    private final AxisCamera camera;
     private final SmartJoystick leftStick, rightStick, gamepad;
     private final ControlScheme controls;
     private final DriveTrain driveTrain;
@@ -26,6 +28,7 @@ public class Robot extends IterativeRobot {
     private long autonomousStart;
         
     public Robot() {
+        camera = AxisCamera.getInstance();
         leftStick = new SmartJoystick(1);
         rightStick = new SmartJoystick(2);
         gamepad = new SmartJoystick(3);
