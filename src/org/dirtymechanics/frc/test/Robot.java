@@ -36,16 +36,15 @@ public class Robot extends IterativeRobot {
     private final Solenoid transmissionB = new Solenoid(TRANSMISSION_SOL_B);
     private final Solenoid led = new Solenoid(LED);
     
-    private final AxisCamera camera;
     private final Compressor compressor;
     private final SmartJoystick leftStick, rightStick, gamepad;
     private final ControlScheme controls;
     private final DriveTrain driveTrain;
     private final Shooter shooter;
     private final Transmission transmission;
+    int a = 0;
         
     public Robot() {
-        camera = AxisCamera.getInstance();
         compressor = new Compressor(COMPRESSOR_SWITCH, COMPRESSOR_RELAY);
         leftStick = new SmartJoystick(1);
         rightStick = new SmartJoystick(2);
@@ -54,18 +53,19 @@ public class Robot extends IterativeRobot {
         transmission = new Transmission(transmissionB, transmissionA);
         driveTrain = new DriveTrain(leftJag, rightJag, transmission, controls);
         shooter = new Shooter(shooterJag, shooterPistonOut, shooterPistonIn, controls);
+        compressor.start();
     }
     
     public void robotInit() {
-        compressor.start();
-        driveTrain.shiftDown();
+        //driveTrain.shiftDown();
     }
     
     public void autonomousInit() {
     }
     
-    public void autonomousPeriodic() {
-        /*long time = System.currentTimeMillis();
+    /*public void autonomousPeriodic() {
+        System.out.println("a" + a++);
+        long time = System.currentTimeMillis();
         driveTrain.shiftDown();
         if (autonomousStart - time < 3000) {
             driveTrain.drive(0.4D, 0.4D);
@@ -77,8 +77,8 @@ public class Robot extends IterativeRobot {
             //TODO shoot
         } else {
             //TODO stop shooting
-        }*/
-    }
+        }
+    }*/
     
     public void teleopPeriodic() {
         led.set(true);
@@ -87,6 +87,6 @@ public class Robot extends IterativeRobot {
     }
     
     public void disabledPeriodic() {
-        led.set(false);
+        led.set(true);
     }
 }

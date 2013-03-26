@@ -10,7 +10,7 @@ public class DriveTrain {
     /**
      * The value for the artificial scalar for the drive train.
      */
-    private static final double DRIVE_SCALAR = 0.5D;
+    private static final double DRIVE_SCALAR = 0.25D;
     
     private final Jaguar leftJag;
     private final Jaguar rightJag;

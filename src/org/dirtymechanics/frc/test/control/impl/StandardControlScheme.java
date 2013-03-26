@@ -18,7 +18,7 @@ public class StandardControlScheme implements ControlScheme {
         this.right = right;
         this.pad = pad;
         right.registerToggleButton(TRANSMISSION_SWITCH);
-        right.registerToggleButton(SHOOTER_WHEEL);
+        pad.registerToggleButton(SHOOTER_WHEEL);
         right.registerToggleButton(DRIVE_SCALAR);
     }
     
@@ -32,7 +32,7 @@ public class StandardControlScheme implements ControlScheme {
     }
     
     public boolean getTransmissionState() {
-        return left.getButtonState(TRANSMISSION_SWITCH);
+        return right.getButtonState(TRANSMISSION_SWITCH);
     }
 
     public boolean getShooterWheelState() {
@@ -44,6 +44,6 @@ public class StandardControlScheme implements ControlScheme {
     }
 
     public boolean getDriveScalarState() {
-        return right.getButtonState(DRIVE_SCALAR);
+        return !right.getButtonState(DRIVE_SCALAR);
     }
 }

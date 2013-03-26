@@ -34,7 +34,7 @@ public class Shooter {
     }
     
     /**
-     * Called per cycle.
+     * Called per cycle, handles all shooter related logic.
      */
     public void update() {
         if (controls.getShooterWheelState()) {
