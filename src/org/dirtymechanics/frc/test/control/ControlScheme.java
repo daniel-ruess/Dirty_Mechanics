@@ -25,4 +25,17 @@ public interface ControlScheme {
      * @return Whether or not to run the shooter motor.
      */
     public boolean getShooterWheelState();
+    
+    /**
+     * Gets the user's input for the shooter's state.
+     * @return The state.
+     */
+    public boolean getShooterPistonState();
+    
+    /**
+     * Gets the user's input for the current state of the artificial speed
+     * scalar.
+     * @return The state.
+     */
+    public boolean getDriveScalarState();
 }

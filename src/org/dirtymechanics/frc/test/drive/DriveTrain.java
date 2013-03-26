@@ -7,16 +7,21 @@ import org.dirtymechanics.frc.test.control.ControlScheme;
  * Controls all drive related operations.
  */
 public class DriveTrain {
+    /**
+     * The value for the artificial scalar for the drive train.
+     */
+    private static final double DRIVE_SCALAR = 0.5D;
+    
     private final Jaguar leftJag;
     private final Jaguar rightJag;
     private final Transmission transmission;
     private final ControlScheme controls;
     
-    public DriveTrain(Jaguar leftJag, Jaguar rightJag,
-            int transmission, ControlScheme controls) {
+    public DriveTrain(Jaguar leftJag, Jaguar rightJag, Transmission transmission,
+            ControlScheme controls) {
         this.leftJag = leftJag;
         this.rightJag = rightJag;
-        this.transmission = new Transmission(transmission);
+        this.transmission = transmission;
         this.controls = controls;
     }
     
@@ -38,7 +43,8 @@ public class DriveTrain {
      * Default drive; passes the controller values to the drive method.
      */
     public void drive() {
-        drive(controls.getLeftDrivePower(), controls.getRightDrivePower());
+        double scalar = controls.getDriveScalarState()? 1 : DRIVE_SCALAR;
+        drive(controls.getLeftDrivePower() * scalar, controls.getRightDrivePower() * scalar);
     }
     
     /**

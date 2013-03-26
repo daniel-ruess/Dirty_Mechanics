@@ -1,41 +1,66 @@
 package org.dirtymechanics.frc.test.shooter;
 
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Solenoid;
 import org.dirtymechanics.frc.test.control.ControlScheme;
 
 /**
  * Contains all functions relevant to the shooting mechanism.
  */
 public class Shooter {
-    private final Jaguar jaguar;
-    private  Relay lowLift;
-    private  Relay highLift;
+    private static final long SHOOTING_TIMEOUT = 500;
+    private static final long SHOOTING_TIME = 75;
+    private static final long COOLDOWN_TIMEOUT = 500;
     private final ControlScheme controls;
+    private final Jaguar jaguar;
+    private final Solenoid pistonOut;
+    private final Solenoid pistonIn;
+    private boolean shooting = false;
+    private long shootingStart = 0;
+    private long cooldownStart = 0;
+
+    /**
+     * Creates a new instance of the Shooter class.
+     * @param shooterJag The jaguar for the wheel.
+     * @param pistonOut The solenoid controlling the pressure to push the piston.
+     * @param pistonIn The solenoid controlling the pressure to retract the piston.
+     * @param controls The control instance.
+     */
+    public Shooter(Jaguar shooterJag, Solenoid pistonOut, Solenoid pistonIn, ControlScheme controls) {
+        this.jaguar = shooterJag;
+        this.pistonOut = pistonOut;
+        this.pistonIn = pistonIn;
+        this.controls = controls;
+    }
     
     /**
-     * @param jaguar The channel for the shooter motor's jaguar.
-     * @param lowlift The channel for the low lift's spike.
-     * @param highLift The channel for the high lift's spike.
-    */
-    public Shooter(int jaguar, int lowLift, int highLift, ControlScheme controls) {
-        this.jaguar = new Jaguar(jaguar);
-        this.controls = controls;
-        //this.lowLift = new Relay(lowLift);
-        //this.highLift = new Relay(highLift);
-    }
-
-    public Shooter(Jaguar shooterJag, ControlScheme controls) {
-        this.jaguar = shooterJag;
-        this.controls = controls;
-    }
-    
+     * Called per cycle.
+     */
     public void update() {
-        System.out.println(controls.getShooterWheelState());
         if (controls.getShooterWheelState()) {
             setSpeed(1.0D);
         } else {
             setSpeed(0.0D);
+        }
+        
+        if (controls.getShooterPistonState()) {
+            if (System.currentTimeMillis() - cooldownStart > COOLDOWN_TIMEOUT) {
+                if (!shooting) {
+                    shooting = true;
+                    shootingStart = System.currentTimeMillis();
+                }
+                if ((System.currentTimeMillis() - shootingStart) % SHOOTING_TIMEOUT < SHOOTING_TIME) {
+                    setPiston(true);
+                } else {
+                    setPiston(false);
+                }
+            }
+        } else {
+            if (shooting) {
+                shooting = false;
+                cooldownStart = System.currentTimeMillis();
+            }
+            setPiston(false);
         }
     }
     
@@ -48,42 +73,11 @@ public class Shooter {
     }
     
     /**
-     * Raises all lifts.
+     * Sets the state of the piston; true on, false off.
+     * @param state The state.
      */
-    public void raiseLift() {
-        lowLift.set(Relay.Value.kForward);
-        highLift.set(Relay.Value.kForward);
-    }
-    
-    /**
-     * Disables all lifts.
-     */
-    public void lowerLift() {
-        lowLift.set(Relay.Value.kOff);
-        highLift.set(Relay.Value.kOff);
-    }
-    
-    /**
-     * Sets the state of the low lift.
-     * @param state True is on, false is off.
-     */
-    public void setLowLift(boolean state) {
-        if (state) {
-            lowLift.set(Relay.Value.kForward);
-        } else {
-            lowLift.set(Relay.Value.kOff);
-        }
-    }
-    
-    /**
-     * Sets the state of the high lift.
-     * @param state True is on, false is off.
-     */
-    public void setHighLift(boolean state) {
-        if (state) {
-            highLift.set(Relay.Value.kForward);
-        } else {
-            highLift.set(Relay.Value.kOff);
-        }
+    public void setPiston(boolean state) {
+        pistonOut.set(state);
+        pistonIn.set(!state);
     }
 }

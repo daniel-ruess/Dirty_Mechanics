@@ -4,8 +4,10 @@ import org.dirtymechanics.frc.test.control.ControlScheme;
 import org.dirtymechanics.frc.test.control.SmartJoystick;
 
 public class StandardControlScheme implements ControlScheme {
-    private static final int TRANSMISSION_SWITCH = 3;
-    private static final int SHOOTING_SWITCH = 1;
+    private static final int TRANSMISSION_SWITCH = 1;
+    private static final int SHOOTER_WHEEL = 3;
+    private static final int SHOOTER_PISTON = 6;
+    private static final int DRIVE_SCALAR = 10;
     
     private final SmartJoystick left;
     private final SmartJoystick right;
@@ -15,7 +17,9 @@ public class StandardControlScheme implements ControlScheme {
         this.left = left;
         this.right = right;
         this.pad = pad;
-        right.registerToggleButton(SHOOTING_SWITCH);
+        right.registerToggleButton(TRANSMISSION_SWITCH);
+        right.registerToggleButton(SHOOTER_WHEEL);
+        right.registerToggleButton(DRIVE_SCALAR);
     }
     
 
@@ -28,10 +32,18 @@ public class StandardControlScheme implements ControlScheme {
     }
     
     public boolean getTransmissionState() {
-        return right.getButtonState(TRANSMISSION_SWITCH);
+        return left.getButtonState(TRANSMISSION_SWITCH);
     }
 
     public boolean getShooterWheelState() {
-        return right.getButtonState(SHOOTING_SWITCH);
+        return pad.getButtonState(SHOOTER_WHEEL);
+    }
+
+    public boolean getShooterPistonState() {
+        return pad.getButtonState(SHOOTER_PISTON);
+    }
+
+    public boolean getDriveScalarState() {
+        return right.getButtonState(DRIVE_SCALAR);
     }
 }

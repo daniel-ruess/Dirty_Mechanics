@@ -1,15 +1,20 @@
 package org.dirtymechanics.frc.test.drive;
 
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Solenoid;
 
 /**
  * Handles operations relating to the transmission.
  */
 public class Transmission {
-    private final Relay relay;
+    /**
+     * The two solenoids for the double action setup.
+     */
+    private final Solenoid a, b;
     
-    public Transmission(int relay) {
-        this.relay = new Relay(relay);
+    public Transmission(Solenoid a, Solenoid b) {
+        this.a = a;
+        this.b = b;
     }
     
     /**
@@ -17,10 +22,7 @@ public class Transmission {
      * @param state The new state.
      */
     public void set(boolean state) {
-        if (state) {
-            relay.set(Relay.Value.kOff);
-        } else {
-            relay.set(Relay.Value.kForward);
-        }
+        a.set(state);
+        b.set(!state);
     }
 }
